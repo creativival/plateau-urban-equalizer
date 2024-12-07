@@ -5,12 +5,10 @@ class Camera:
     heading_angular_velocity = 1500  # カメラの水平回転速度
     pitch_angular_velocity = 500  # カメラの垂直回転速度
     max_pitch_angle = 60  # カメラの最大ピッチ角度
-    min_pitch_angle = -60  # カメラの最小ピッチ角度
+    min_pitch_angle = -80  # カメラの最小ピッチ角度
 
     def __init__(self, base):
         self.base = base
-        self.camera = base.camera
-        self.render = base.render
         self.mode = 'external'  # 'external'（外部視点）または 'internal'（内部視点）
 
         # カメラの初期設定
@@ -52,8 +50,8 @@ class Camera:
         外部カメラの設定を行います。
         """
         self.base.disableMouse()  # デフォルトのカメラ制御を無効化
-        self.camera.setPos(2048, -5000, 2048)  # カメラを上空に配置
-        self.camera.lookAt(0, 0, 0)  # 原点を注視
+        self.base.camera.setPos(2048, -5000, 2048)  # カメラを上空に配置
+        self.base.camera.lookAt(0, 0, 0)  # 原点を注視
         self.enable_mouse_control()  # マウスでカメラを回転可能にする
 
     def setup_internal_camera(self):
@@ -61,8 +59,8 @@ class Camera:
         内部カメラの設定を行います。
         """
         self.base.disableMouse()
-        self.camera.setPos(0, 0, 1.6)  # カメラを地面上に配置
-        self.camera.setHpr(0, 0, 0)  # カメラの回転を初期化
+        self.base.camera.setPos(0, 0, 1.6)  # カメラを地面上に配置
+        self.base.camera.setHpr(0, 0, 0)  # カメラの回転を初期化
         self.disable_mouse_control()
 
     def toggle_mode(self):
@@ -140,58 +138,42 @@ class Camera:
         Args:
             dt (float): フレーム間の経過時間。
         """
-        self.handle_keyboard_movement(dt)
-        self.handle_mouse_rotation(dt)
-
-    def handle_keyboard_movement(self, dt):
-        """
-        キー入力によるカメラの移動を制御します。
-
-        Args:
-            dt (float): フレーム間の経過時間。
-        """
         speed = 200 * dt
-        x_direction = self.camera.getMat().getRow3(0)
-        y_direction = self.camera.getMat().getRow3(1)
-        camera_x, camera_y, camera_z = self.camera.getPos()
+        x_direction = self.base.camera.getMat().getRow3(0)
+        y_direction = self.base.camera.getMat().getRow3(1)
+        camera_x, camera_y, camera_z = self.base.camera.getPos()
 
         if self.key_map['forward']:
-            camera_x += y_direction.x * speed
-            camera_y += y_direction.y * speed
+            camera_x = camera_x + y_direction.x * speed
+            camera_y = camera_y + y_direction.y * speed
         if self.key_map['backward']:
-            camera_x -= y_direction.x * speed
-            camera_y -= y_direction.y * speed
+            camera_x = camera_x - y_direction.x * speed
+            camera_y = camera_y - y_direction.y * speed
         if self.key_map['left']:
-            camera_x -= x_direction.x * speed
-            camera_y -= x_direction.y * speed
+            camera_x = camera_x - x_direction.x * speed
+            camera_y = camera_y - x_direction.y * speed
         if self.key_map['right']:
-            camera_x += x_direction.x * speed
-            camera_y += x_direction.y * speed
+            camera_x = camera_x + x_direction.x * speed
+            camera_y = camera_y + x_direction.y * speed
         if self.key_map['up']:
-            camera_z += speed
+            camera_z = camera_z + speed
         if self.key_map['down']:
-            camera_z -= speed
+            camera_z = camera_z - speed
 
-        self.camera.setPos(camera_x, camera_y, camera_z)
+        self.base.camera.setPos(camera_x, camera_y, camera_z)
 
-    def handle_mouse_rotation(self, dt):
-        """
-        マウスによる視点の回転を制御します。
-
-        Args:
-            dt (float): フレーム間の経過時間。
-        """
+        # マウスによる視点の回転
         if self.base.mouseWatcherNode.hasMouse():
             x = self.base.mouseWatcherNode.getMouseX()
             y = self.base.mouseWatcherNode.getMouseY()
             if self.prev_mouse_pos is not None:
                 dx = x - self.prev_mouse_pos[0]
                 dy = y - self.prev_mouse_pos[1]
-                heading = self.camera.getH() - dx * Camera.heading_angular_velocity * dt
-                pitch = self.camera.getP() + dy * Camera.pitch_angular_velocity * dt
+                heading = self.base.camera.getH() - dx * Camera.heading_angular_velocity * speed
+                pitch = self.base.camera.getP() + dy * Camera.pitch_angular_velocity * speed
                 pitch = min(Camera.max_pitch_angle, max(Camera.min_pitch_angle, pitch))
-                self.camera.setH(heading)
-                self.camera.setP(pitch)
+                self.base.camera.setH(heading)
+                self.base.camera.setP(pitch)
             self.prev_mouse_pos = (x, y)
 
     def control_external_camera(self, dt):
@@ -203,17 +185,17 @@ class Camera:
         """
         speed = 500 * dt
         if self.key_map['forward']:
-            self.camera.setY(self.camera, speed)
+            self.base.camera.setY(self.base.camera, speed)
         if self.key_map['backward']:
-            self.camera.setY(self.camera, -speed)
+            self.base.camera.setY(self.base.camera, -speed)
         if self.key_map['left']:
-            self.camera.setX(self.camera, -speed)
+            self.base.camera.setX(self.base.camera, -speed)
         if self.key_map['right']:
-            self.camera.setX(self.camera, speed)
+            self.base.camera.setX(self.base.camera, speed)
         if self.key_map['up']:
-            self.camera.setZ(self.camera.getZ() + speed)
+            self.base.camera.setZ(self.base.camera.getZ() + speed)
         if self.key_map['down']:
-            self.camera.setZ(self.camera.getZ() - speed)
+            self.base.camera.setZ(self.base.camera.getZ() - speed)
 
         # マウスによるカメラの回転
         if self.base.mouseWatcherNode.hasMouse():
@@ -222,6 +204,6 @@ class Camera:
             if self.prev_mouse_pos is not None:
                 dx = x - self.prev_mouse_pos[0]
                 dy = y - self.prev_mouse_pos[1]
-                self.camera.setH(self.camera.getH() - dx * 100 * self.mouse_sensitivity)
-                self.camera.setP(self.camera.getP() - dy * 100 * self.mouse_sensitivity)
+                self.base.camera.setH(self.base.camera.getH() - dx * 100 * self.mouse_sensitivity)
+                self.base.camera.setP(self.base.camera.getP() - dy * 100 * self.mouse_sensitivity)
             self.prev_mouse_pos = (x, y)

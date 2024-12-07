@@ -14,6 +14,9 @@ class BuildingAppExample(ShowBase):
     def __init__(self):
         super().__init__()
 
+        # ビルを描画するノード
+        self.buildings_node = self.render.attachNewNode('buildings_node')
+
         # 座標データ
         zoom_level = 14
         base_coords = [
@@ -45,7 +48,7 @@ class BuildingAppExample(ShowBase):
             color_writer.addData4f(*color)
         for x, y in base_coords:
             # 上面の頂点
-            vertex.addData3f(x, y, height)
+            vertex.addData3f(x, y, 1)
             color_writer.addData4f(*color)
 
         # プリミティブ（基本形状）の作成
@@ -75,7 +78,10 @@ class BuildingAppExample(ShowBase):
         geom.addPrimitive(tris)  # プリミティブを追加
         node = GeomNode('building')  # GeomNodeノードを作成
         node.addGeom(geom)  # ジオメトリをノードに追加
-        building_nodepath = self.render.attachNewNode(node)  # ノードをシーンに追加
+        building_nodepath = self.buildings_node.attachNewNode(node)  # ノードをシーンに追加
+
+        # ビルの高さを設定
+        self.buildings_node.setSz(height)
 
         # ワイヤーフレーム表示に設定
         building_nodepath.setRenderModeWireframe()

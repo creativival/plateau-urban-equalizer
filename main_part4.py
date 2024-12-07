@@ -1,11 +1,9 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import *
+from panda3d.core import WindowProperties, CardMaker, TransparencyAttrib
 from PIL import Image
 from city.data_loader import DataLoader
 from city.building_render import BuildingRenderer
 from city.camera import Camera
-from city.sound import Sound  # ここから（1）
-from city.equalizer import Equalizer  # ここまで（1）
 
 
 class BuildingApp(ShowBase):
@@ -16,7 +14,6 @@ class BuildingApp(ShowBase):
     use_wireframe = False  # ワイヤーフレーム表示の有無
     use_simplified_coords = True  # 簡略化された座標を使用するかどうか
     image_path = 'images/mirror_ball.png'
-    sound_path = 'sound/Dive_To_Mod.mp3'  # （2）
 
     def __init__(self, zoom_level, tile_x, tile_y):
         super().__init__()
@@ -71,12 +68,6 @@ class BuildingApp(ShowBase):
 
         # アプリの停止
         self.accept('escape', exit)
-
-        # Soundクラスを初期化  # ここから（3）
-        self.sound = Sound(self.sound_path)
-
-        # イコライザーを初期化
-        self.equalizer = Equalizer(self)  # ここまで（3）
 
 
 if __name__ == '__main__':
