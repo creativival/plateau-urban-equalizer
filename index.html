@@ -4,10 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PLATEAU Urban Equalizer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px; /* ディスプレイ幅に制限をかける */
+            margin: 0 auto; /* コンテンツを中央揃え */
+            padding: 0 15px; /* 左右に余白を追加 */
+        }
+
+        img {
+            max-width: 100%; /* 画像がはみ出さないよう調整 */
+            height: auto;
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light text-dark">
-    <div class="container py-5">
+<div class="container py-5">
+
+
+
+
+
+
+
 
 
 
@@ -26,7 +50,7 @@
   <li>
     <p>以下のリンクから閲覧できます。</p>
     <ul>
-      <li><a href="https://note.com/creativival/n/nf040a73a152a">note: PLATEAU Urban Equalize解説記事</a></li>
+      <li><a href="https://note.com/creativival/n/nf040a73a152a">note: PLATEAU Urban Equalizer 解説記事</a></li>
     </ul>
   </li>
 </ul>
@@ -49,6 +73,80 @@
     外部視点や内部視点を切り替え、自由に都市を探索できます。</p>
   </li>
 </ul>
+<h2>利用シーン</h2>
+<p>『PLATEAU Urban Equalizer』は、3D都市データと音楽解析技術を活用した多機能なアプリケーションです。その応用範囲は幅広く、以下のような利用シーンが想定されています：</p>
+<h3>1. イベントや映像制作</h3>
+<ul>
+  <li><strong>まちづくりイベントでの上映</strong><br />
+    音楽と連動した動きで、観客を魅了する都市エフェクトを提供します。</li>
+  <li><strong>ミュージックビデオやプロモーション映像の背景</strong><br />
+    ビル群が音楽に合わせて踊るビジュアルは、映像作品に動的な魅力をプラスします。</li>
+</ul>
+<h3>2. 教育と学習</h3>
+<ul>
+  <li><strong>工学部や情報系学生向けのプログラミング教材</strong><br />
+    3Dレンダリングや音楽解析を通じて、実践的なプログラミングスキルを学ぶことができます。</li>
+  <li><strong>初心者向けの学習サポート</strong><br />
+    詳細なコード解説により、プログラミング初心者でも気軽に学べます。</li>
+</ul>
+<h3>3. アプリケーション開発のベース</h3>
+<ul>
+  <li><strong>3D都市アプリケーションのベースとして</strong><br />
+    エコライザー機能を分離して、ゲーム、エンターテーメント、観光イベント、都市シミュレーション、研究用途などに応用可能です。</li>
+  <li><strong>インタラクティブな都市体験アプリの構築</strong><br />
+    カスタマイズ可能なコードを活用し、新しい都市体験アプリケーションを開発できます。</li>
+</ul>
+<h2>カスタマイズ</h2>
+<p>『PLATEAU Urban Equalizer』は用途に応じて柔軟なカスタマイズが可能で、ユーザーの目的や好みに応じて設定を変更できます。以下は、主要なカスタマイズ項目の例です。</p>
+<h3>1. 基本設定</h3>
+<p>アプリの基本設定は、以下のように調整できます（main.py）：</p>
+<pre><code class="python"># アプリの基本設定
+use_wireframe = False  # ワイヤーフレーム表示の有無（Trueにすると建物が線で描画されます）
+use_simplified_coords = True  # 簡略化された座標を使用するかどうか（計算負荷軽減）
+image_path = 'images/mirror_ball.png'  # 背景画像のパス
+sound_path = 'sound/Dive_To_Mod.mp3'  # 再生する音楽ファイルのパス
+</code></pre>
+<ul>
+  <li>use_wireframe: ワイヤーフレーム表示を有効にすると、3D都市が構造として表示されます。デバッグや建物の構造確認に便利です。</li>
+  <li>use_simplified_coords: 計算負荷を軽減するため、建物データの座標を簡略化します。高性能PCで精密なモデルを表示したい場合はFalseに設定します。</li>
+  <li>image_path: 背景画像を変更することで、アプリの雰囲気を簡単に変えることができます。</li>
+  <li>sound_path: 好きな音楽ファイルを指定することで、異なる楽曲に合わせたエフェクトを楽しめます。</li>
+</ul>
+<h3>2. 簡略化の度合い</h3>
+<p>建物データの頂点数を調整して、パフォーマンスを最適化できます（building.py）：</p>
+<pre><code class="python"># 簡略化の度合いを設定（値が大きいほど頂点数が減少）
+simplification_tolerance = 30  # 必要に応じて調整
+</code></pre>
+<ul>
+  <li>simplification_tolerance: 値を大きくすると建物の形状が単純化され、計算負荷が軽減されます。ただし、形状が簡略化されすぎる場合があるため、適切な値を見つけることが重要です。</li>
+</ul>
+<h3>3. 波形エフェクトの調整</h3>
+<p>波の動きを調整するパラメータを変更できます（equalizer.py）：</p>
+<pre><code>wave_length = 500  # 波の長さ（値を大きくすると波が広がります）
+wave_speed = 2  # 波の速度（波の進行速度を調整）
+wave_height_scale = 1000  # 波の高さ（値を増やすとビルの上下動が大きくなります）
+</code></pre>
+<ul>
+  <li>wave_length: 波の長さを調整することで、都市全体の波動効果を変更できます。</li>
+  <li>wave_speed: 波が進む速度を調整できます。</li>
+  <li>wave_height_scale: ビルの動きの強さを制御します。</li>
+</ul>
+<h3>4. カメラ設定</h3>
+<p>カメラ操作の初期設定を変更可能です（camera.py）。</p>
+<pre><code># 外部カメラの初期位置
+self.camera.setPos(2048, -5000, 2048)  # 上空からの俯瞰視点
+self.camera.lookAt(0, 0, 0)  # 注視点を都市の中心に設定
+</code></pre>
+<ul>
+  <li>初期位置や注視点を変更して、アプリ起動時のカメラ視点をカスタマイズできます。</li>
+</ul>
+<h3>5. カスタマイズのメリット</h3>
+<ul>
+  <li>好みの音楽や画像を使って個性的な都市エフェクトを演出できます。</li>
+  <li>波形エフェクトや簡略化パラメータを調整して、パフォーマンスとビジュアルを両立できます。</li>
+  <li>初心者でも各設定を変更するだけで、アプリケーションの挙動を簡単にカスタマイズ可能です。</li>
+</ul>
+<p>ぜひこれらの設定を変更し、自分だけのオリジナル3D都市アプリケーションを作成してください！</p>
 <h2>デモ画像</h2>
 <p>以下は、アプリの実行中の画面です。</p>
 <p class="text-center"><img src="https://creativival.github.io/plateau-urban-equalizer/images/demo1.png" alt="デモ画像1" />
@@ -151,7 +249,7 @@ cd plateau-urban-equalizer
 <ul>
   <li>
     <p><strong>カスタマイズ</strong><br />
-    main.py内のタイル座標を変更することで、異なる都市エリアを表示できます。ズームレベルに対応するタイル座標の調べ方は、上記の解説記事の付録を参照してください。</p>
+    main.py内のタイル座標を変更することで、異なる都市エリアを表示できます。ズームレベルに対応するタイル座標の調べ方は、<a href="https://note.com/creativival/n/nf040a73a152a#8f5f5aa9-bf06-493e-9ffd-0345d1dce662">noteの解説記事の付録</a>を参照してください。</p>
   </li>
   <li>
     <p><strong>波形のパラメータ調整</strong><br />
@@ -176,11 +274,13 @@ cd plateau-urban-equalizer
     別のMP3ファイルに入れ替える</p>
   </li>
   <li>
-    <p><strong>ffmpegがインストールされていない</strong><br />
-    以下のコマンドでインストール可能です。
-    macOS: brew install ffmpeg
-    Ubuntu: sudo apt install ffmpeg
-    Windows: 公式サイトからダウンロードしてPATHを設定。</p>
+    <p><strong>ffmpegがインストールされていない</strong></p>
+    <ul>
+      <li>以下のコマンドでインストール可能です。</li>
+      <li>macOS: brew install ffmpeg</li>
+      <li>Ubuntu: sudo apt install ffmpeg</li>
+      <li>Windows: 公式サイトからダウンロードしてPATHを設定。</li>
+    </ul>
   </li>
 </ul>
 <h3>画像関係</h3>
@@ -202,6 +302,11 @@ cd plateau-urban-equalizer
   <li>このアプリを通じてPLATEAUプロジェクトに興味を持ち、都市データを活用したプロジェクトに挑戦していただければ幸いです。</li>
   <li>フィードバックや提案はぜひお寄せください。</li>
 </ul>
+
+
+
+
+
 
 
 
