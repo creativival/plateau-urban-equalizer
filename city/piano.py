@@ -5,8 +5,6 @@ from pyo import *
 
 class Piano:
     EXTENT = 4096
-    WHITE_KEYS = ['z', 'x', 'c', 'v', 'b', 'n', 'm']
-    BLACK_KEYS = ['s', 'd', 'g', 'h', 'j']
     KEY_MAPPING = {
         'z': ('C', 261.63), 's': ('C#', 277.18),
         'x': ('D', 293.66), 'd': ('D#', 311.13),
@@ -23,34 +21,24 @@ class Piano:
 
         Args:
             base: Panda3DのShowBaseオブジェクト
-            building_list (list): 3D都市を構成する建物のリスト
         """
         self.base = base
         self.building_list = base.building_list
-        self.key_to_building = {
-            "z": [],
-            "x": [],
-            "c": [],
-            "v": [],
-            "b": [],
-            "n": [],
-            "m": [],
-            "s": [],
-            "d": [],
-            "g": [],
-            "h": [],
-            "j": []
-        }
+        self.key_to_building = {key: [] for key in self.KEY_MAPPING}
+        self.key_map = {key: False for key in self.KEY_MAPPING}  # 各キーの状態を管理
 
         # Pyoサーバーの初期化
         self.server = Server().boot()
         self.server.start()
 
         # 建物の初期高さを設定
-        self.initialize_building_heights()
+        self.initialize_key_to_building()
 
         # キー入力を登録
         self.register_key_events()
+
+        # 高さの更新タスクを追加
+        self.base.taskMgr.add(self.update_building_heights, "UpdateBuildingHeights")
 
         # アプリの停止
         self.base.accept('escape', self.stop)
@@ -67,9 +55,9 @@ class Piano:
         time.sleep(0.5)  # 音を0.5秒再生
         sine_wave.stop()
 
-    def initialize_building_heights(self):
+    def initialize_key_to_building(self):
         """
-        建物の高さをピアノの鍵盤に対応付けて初期化
+        建物をピアノの鍵盤に対応付ける
         """
         # 7つの鍵盤に対応する建物を設定
         x_step = self.EXTENT / 7
@@ -130,7 +118,6 @@ class Piano:
             else:
                 key = 'm'
             self.key_to_building[key].append(building)
-            # print(f"key: {key}, x: {x}, y: {y}")
 
     def register_key_events(self):
         """
@@ -148,20 +135,9 @@ class Piano:
             key (str): 押されたキー
         """
         if key in self.KEY_MAPPING:
+            self.key_map[key] = True  # キー状態を更新
             _, frequency = self.KEY_MAPPING[key]
             self.play_tone(frequency)
-
-            for building_key in self.key_to_building:
-                if building_key == key:
-                    for building in self.key_to_building.get(building_key):
-                        if building:
-                            if building.node.getSz() != 1:
-                                building.node.setSz(1)
-                else:
-                    for building in self.key_to_building.get(building_key):
-                        if building:
-                            if building.node.getSz() == 1:
-                                building.node.setSz(building.height)
 
     def handle_key_release(self, key):
         """
@@ -170,10 +146,25 @@ class Piano:
         Args:
             key (str): 解放されたキー
         """
-        for building in self.base.building_list:
-            if building:
-                if building.node.getSz() == 1:
-                    building.node.setSz(building.height)
+        if key in self.KEY_MAPPING:
+            self.key_map[key] = False  # キー状態を更新
+
+    def update_building_heights(self, task):
+        """
+        キー入力状態に基づいて建物の高さを更新するタスク
+
+        Args:
+            task: Panda3Dのタスク
+        """
+        for key, is_pressed in self.key_map.items():
+            for building in self.key_to_building[key]:
+                if is_pressed:
+                    if building.node.getSz() != 1:
+                        building.node.setSz(1)
+                else:
+                    if building.node.getSz() == 1:
+                        building.node.setSz(building.height)
+        return task.cont
 
     def stop(self):
         """
