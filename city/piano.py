@@ -1,6 +1,7 @@
 import sys
 import time
-from pyo import *
+import numpy as np
+import simpleaudio as sa
 
 
 class Piano:
@@ -27,10 +28,6 @@ class Piano:
         self.key_to_building = {key: [] for key in self.KEY_MAPPING}
         self.key_map = {key: False for key in self.KEY_MAPPING}  # 各キーの状態を管理
 
-        # Pyoサーバーの初期化
-        self.server = Server().boot()
-        self.server.start()
-
         # 建物の初期高さを設定
         self.initialize_key_to_building()
 
@@ -40,20 +37,34 @@ class Piano:
         # 高さの更新タスクを追加
         self.base.taskMgr.add(self.update_building_heights, "UpdateBuildingHeights")
 
-        # アプリの停止
-        self.base.accept('escape', self.stop)
+    def generate_sine_wave(self, frequency, duration=0.5, sample_rate=44100, amplitude=0.5):
+        """
+        サイン波を生成
+
+        Args:
+            frequency (float): 周波数（Hz）
+            duration (float): 継続時間（秒）
+            sample_rate (int): サンプルレート
+            amplitude (float): 音量（0.0〜1.0）
+
+        Returns:
+            numpy.ndarray: 音声データ
+        """
+        t = np.linspace(0, duration, int(sample_rate * duration), False)
+        wave = amplitude * np.sin(2 * np.pi * frequency * t)
+        audio = (wave * 32767).astype(np.int16)  # 16-bit PCM形式に変換
+        return audio
 
     def play_tone(self, frequency):
         """
-        指定された周波数の音を再生する
+        指定された周波数の音を再生
 
         Args:
             frequency (float): 再生する音の周波数（Hz）
         """
-        sine_wave = Sine(freq=frequency, mul=0.5)
-        sine_wave.out()
-        time.sleep(0.5)  # 音を0.5秒再生
-        sine_wave.stop()
+        audio = self.generate_sine_wave(frequency)
+        play_obj = sa.play_buffer(audio, 1, 2, 44100)
+        play_obj.wait_done()
 
     def initialize_key_to_building(self):
         """
@@ -64,54 +75,54 @@ class Piano:
         for building in self.building_list:
             x, y = building.centroid.x, building.centroid.y
             if x < x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 's'
                 else:
                     key = 'z'
             elif x < 1.5 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 's'
                 else:
                     key = 'x'
             elif x < 2 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'd'
                 else:
                     key = 'x'
             elif x < 2.5 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'd'
                 else:
                     key = 'c'
             elif x < 3 * x_step:
                 key = 'c'
             elif x < 4 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'g'
                 else:
                     key = 'v'
             elif x < 4.5 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'g'
                 else:
                     key = 'b'
             elif x < 5 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'h'
                 else:
                     key = 'b'
             elif x < 5.5 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'h'
                 else:
                     key = 'n'
             elif x < 6 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'j'
                 else:
                     key = 'n'
             elif x < 6.5 * x_step:
-                if building.color[0] == 0.0:
+                if self.is_black(building.color):
                     key = 'j'
                 else:
                     key = 'm'
@@ -165,12 +176,16 @@ class Piano:
                     if building.node.getSz() == 1:
                         building.node.setSz(building.height)
         return task.cont
+    
+    @staticmethod
+    def is_black(color):
+        """
+        色が黒かどうかを判定
 
-    def stop(self):
+        Args:
+            color (tuple): RGBの色情報
+
+        Returns:
+            bool: 黒の場合はTrue、それ以外はFalse
         """
-        リソースの解放とサーバー停止
-        """
-        print("アプリケーションを終了しています...")
-        self.server.stop()  # Pyoサーバーを停止
-        time.sleep(1)
-        sys.exit()  # アプリケーションを終了
+        return color[0] == 0.0 and color[1] == 0.0 and color[2] == 0.0
