@@ -21,14 +21,14 @@ class Building:
         # 全ての頂点を含む円の半径（衝突判定用、未使用）
         self.bounding_circle_radius = 0
 
-        # ビルのノードを作成し、シーンに追加
-        self.node = base.buildings_node.attachNewNode(str(self.id))
+        # # ビルのノードを作成し、シーンに追加
+        # self.node = base.buildings_node.attachNewNode(str(self.id))
 
         # ビルのジオメトリを計算し、インスタンス変数を設定
         self.calculate_geometry()
 
-        # 画像からビルの色を取得
-        self.extract_color_from_image(self.centroid.x, self.centroid.y)
+        # # 画像からビルの色を取得
+        # self.extract_color_from_image(self.centroid.x, self.centroid.y)
 
     def calculate_geometry(self):
         """
@@ -38,12 +38,13 @@ class Building:
         linear_ring = LinearRing(self.coordinates)
         polygon = Polygon(linear_ring)
 
-        # ポリゴンの簡略化を行うかどうか
-        if self.base.use_simplified_coords:
-            # トポロジーを保持しつつ簡略化
-            simplified_polygon = polygon.simplify(self.simplification_tolerance, preserve_topology=True)
-        else:
-            simplified_polygon = polygon  # 簡略化しない
+        # # ポリゴンの簡略化を行うかどうか
+        # if self.base.use_simplified_coords:
+        #     # トポロジーを保持しつつ簡略化
+        #     simplified_polygon = polygon.simplify(self.simplification_tolerance, preserve_topology=True)
+        # else:
+        #     simplified_polygon = polygon  # 簡略化しない
+        simplified_polygon = polygon.simplify(self.simplification_tolerance, preserve_topology=True)
 
         # 簡略化した頂点座標を取得
         self.simplified_coords = list(simplified_polygon.exterior.coords)
@@ -55,9 +56,9 @@ class Building:
         all_points = [Point(pt) for pt in self.simplified_coords]
         self.bounding_circle_radius = self.calculate_bounding_circle_radius(all_points, self.centroid)
 
-        # 元の頂点数と簡略化後の頂点数を記録
-        self.base.vertex_count += len(polygon.exterior.coords)
-        self.base.simplified_vertex_count += len(simplified_polygon.exterior.coords)
+        # # 元の頂点数と簡略化後の頂点数を記録
+        # self.base.vertex_count += len(polygon.exterior.coords)
+        # self.base.simplified_vertex_count += len(simplified_polygon.exterior.coords)
 
     def extract_color_from_image(self, x, y):
         """
