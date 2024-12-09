@@ -1,3 +1,5 @@
+import sys
+import time
 from pyo import *
 
 
@@ -25,7 +27,20 @@ class Piano:
         """
         self.base = base
         self.building_list = base.building_list
-        self.key_to_building = {}
+        self.key_to_building = {
+            "z": [],
+            "x": [],
+            "c": [],
+            "v": [],
+            "b": [],
+            "n": [],
+            "m": [],
+            "s": [],
+            "d": [],
+            "g": [],
+            "h": [],
+            "j": []
+        }
 
         # Pyoサーバーの初期化
         self.server = Server().boot()
@@ -36,6 +51,9 @@ class Piano:
 
         # キー入力を登録
         self.register_key_events()
+
+        # アプリの停止
+        self.base.accept('escape', self.stop)
 
     def play_tone(self, frequency):
         """
@@ -58,21 +76,61 @@ class Piano:
         for building in self.building_list:
             x, y = building.centroid.x, building.centroid.y
             if x < x_step:
-                key = 'z'
+                if building.color[0] == 0.0:
+                    key = 's'
+                else:
+                    key = 'z'
+            elif x < 1.5 * x_step:
+                if building.color[0] == 0.0:
+                    key = 's'
+                else:
+                    key = 'x'
             elif x < 2 * x_step:
-                key = 'x'
+                if building.color[0] == 0.0:
+                    key = 'd'
+                else:
+                    key = 'x'
+            elif x < 2.5 * x_step:
+                if building.color[0] == 0.0:
+                    key = 'd'
+                else:
+                    key = 'c'
             elif x < 3 * x_step:
                 key = 'c'
             elif x < 4 * x_step:
-                key = 'v'
+                if building.color[0] == 0.0:
+                    key = 'g'
+                else:
+                    key = 'v'
+            elif x < 4.5 * x_step:
+                if building.color[0] == 0.0:
+                    key = 'g'
+                else:
+                    key = 'b'
             elif x < 5 * x_step:
-                key = 'b'
+                if building.color[0] == 0.0:
+                    key = 'h'
+                else:
+                    key = 'b'
+            elif x < 5.5 * x_step:
+                if building.color[0] == 0.0:
+                    key = 'h'
+                else:
+                    key = 'n'
             elif x < 6 * x_step:
-                key = 'n'
+                if building.color[0] == 0.0:
+                    key = 'j'
+                else:
+                    key = 'n'
+            elif x < 6.5 * x_step:
+                if building.color[0] == 0.0:
+                    key = 'j'
+                else:
+                    key = 'm'
             else:
                 key = 'm'
-            self.key_to_building[key] = building
-            print(f"key: {key}, x: {x}, y: {y}")
+            self.key_to_building[key].append(building)
+            # print(f"key: {key}, x: {x}, y: {y}")
 
     def register_key_events(self):
         """
@@ -93,6 +151,18 @@ class Piano:
             _, frequency = self.KEY_MAPPING[key]
             self.play_tone(frequency)
 
+            for building_key in self.key_to_building:
+                if building_key == key:
+                    for building in self.key_to_building.get(building_key):
+                        if building:
+                            if building.node.getSz() != 1:
+                                building.node.setSz(1)
+                else:
+                    for building in self.key_to_building.get(building_key):
+                        if building:
+                            if building.node.getSz() == 1:
+                                building.node.setSz(building.height)
+
     def handle_key_release(self, key):
         """
         キー解放時の処理
@@ -100,7 +170,16 @@ class Piano:
         Args:
             key (str): 解放されたキー
         """
-        if key in self.KEY_MAPPING:
-            building = self.key_to_building.get(key)
+        for building in self.base.building_list:
             if building:
-                building.node.setSz(5)
+                if building.node.getSz() == 1:
+                    building.node.setSz(building.height)
+
+    def stop(self):
+        """
+        リソースの解放とサーバー停止
+        """
+        print("アプリケーションを終了しています...")
+        self.server.stop()  # Pyoサーバーを停止
+        time.sleep(1)
+        sys.exit()  # アプリケーションを終了

@@ -16,8 +16,8 @@ class BuildingApp(ShowBase):
     # アプリの基本設定
     use_wireframe = False  # ワイヤーフレーム表示の有無
     use_simplified_coords = True  # 簡略化された座標を使用するかどうか
-    image_path = 'images/mirror_ball.png'  # ここから（2）
-    image_path = 'images/mirror_ball.png'  # ここまで（2）
+    # image_path = 'images/mirror_ball.png'  # ここから（2）
+    image_path = 'images/piano_keyboard.png'  # ここまで（2）
     sound_path = 'sound/Dive_To_Mod.mp3'
 
     def __init__(self, zoom_level, tile_x, tile_y):
