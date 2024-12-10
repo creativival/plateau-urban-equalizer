@@ -192,6 +192,7 @@ plateau-urban-equalizer/
 │   ├── data_loader.py       # データの読み込み
 │   ├── equalizer.py         # サウンドエコライザー機能
 │   ├── sound.py             # 音楽解析と再生
+│   ├── piano.py             # ピアノ機能（第6章　応用事例）
 ├── images/
 │   └── mirror_ball.png      # 背景画像
 ├── sound/
@@ -200,6 +201,7 @@ plateau-urban-equalizer/
 ├── building_app_example.py  # ビルの描画（第3章）
 ├── main_part4.py            # アプリのエントリーポイント（第4章）
 ├── main.py                  # アプリのエントリーポイント（完成）
+├── main_piano.py            # PLATEAU Piano（第6章　応用事例）
 ├── README.md                # 本ファイル
 ├── LICENSE                  # ライセンス
 ```
@@ -244,6 +246,16 @@ plateau-urban-equalizer/
 
 - **画像ファイルが壊れている**  
   別の画像ファイルに入れ替える
+
+### 応用事例
+
+![piano](https://creativival.github.io/plateau-urban-equalizer/images/piano.png)
+
+本アプリケーションの柔軟性を示すため、応用事例として PLATEAU Piano を作成しました。PLATEAU Piano は、3D都市をピアノの鍵盤に見立て、音楽を演奏できるアプリケーションです。
+
+詳しい作成手順やコードの詳細は、以下のリンクからご覧いただけます。この事例を参考に、ぜひ自分だけのオリジナルアプリケーションを作り上げてください！
+
+- [PLATEAU Piano](https://note.com/creativival/n/nf040a73a152a#83633652-8e44-4aab-8aaf-7e7b5f3db92a)
 
 ## ライセンス
 
