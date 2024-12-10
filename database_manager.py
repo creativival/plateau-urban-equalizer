@@ -1,7 +1,6 @@
 import os
 import sqlite3
 import json
-from mapbox_vector_tile import decode
 from mapbox_vector_tile import decode  # PBFファイルのデコードに使用
 from city.building import Building  # 既存のBuildingクラスをcityフォルダーからインポート
 
@@ -172,6 +171,6 @@ class BuildingDataManager:
 if __name__ == "__main__":
     # 使用例
     base = None  # 必要ならBaseオブジェクトを渡す
-    manager = BuildingDataManager(db_name='buildings.db', root_folder="16")
+    manager = BuildingDataManager(db_name='buildings_10_11_12_13.db', root_folder="13")
     manager.process_all_pbf_files()
     manager.close()
