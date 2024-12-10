@@ -73,61 +73,33 @@ class Piano:
         # 7つの鍵盤に対応する建物を設定
         x_step = self.EXTENT / 7
         for building in self.building_list:
-            x, y = building.centroid.x, building.centroid.y
+            x = building.centroid.x
+
             if x < x_step:
-                if self.is_black(building.color):
-                    key = 's'
-                else:
-                    key = 'z'
+                key = 's' if self.is_black(building.color) else 'z'
             elif x < 1.5 * x_step:
-                if self.is_black(building.color):
-                    key = 's'
-                else:
-                    key = 'x'
+                key = 's' if self.is_black(building.color) else 'x'
             elif x < 2 * x_step:
-                if self.is_black(building.color):
-                    key = 'd'
-                else:
-                    key = 'x'
+                key = 'd' if self.is_black(building.color) else 'x'
             elif x < 2.5 * x_step:
-                if self.is_black(building.color):
-                    key = 'd'
-                else:
-                    key = 'c'
+                key = 'd' if self.is_black(building.color) else 'c'
             elif x < 3 * x_step:
                 key = 'c'
             elif x < 4 * x_step:
-                if self.is_black(building.color):
-                    key = 'g'
-                else:
-                    key = 'v'
+                key = 'g' if self.is_black(building.color) else 'v'
             elif x < 4.5 * x_step:
-                if self.is_black(building.color):
-                    key = 'g'
-                else:
-                    key = 'b'
+                key = 'g' if self.is_black(building.color) else 'b'
             elif x < 5 * x_step:
-                if self.is_black(building.color):
-                    key = 'h'
-                else:
-                    key = 'b'
+                key = 'h' if self.is_black(building.color) else 'b'
             elif x < 5.5 * x_step:
-                if self.is_black(building.color):
-                    key = 'h'
-                else:
-                    key = 'n'
+                key = 'h' if self.is_black(building.color) else 'n'
             elif x < 6 * x_step:
-                if self.is_black(building.color):
-                    key = 'j'
-                else:
-                    key = 'n'
+                key = 'j' if self.is_black(building.color) else 'n'
             elif x < 6.5 * x_step:
-                if self.is_black(building.color):
-                    key = 'j'
-                else:
-                    key = 'm'
+                key = 'j' if self.is_black(building.color) else 'm'
             else:
                 key = 'm'
+
             self.key_to_building[key].append(building)
 
     def register_key_events(self):
