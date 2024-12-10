@@ -21,7 +21,7 @@ class BuildingRenderer:
             base_coords = base_coords[::-1]  # 順序を反転
 
         # 高さの補正
-        height = building.building_z * BuildingRenderer.Z_SCALES[building.base.zoom_level]
+        building.height = building.building_z * BuildingRenderer.Z_SCALES[building.base.zoom_level]
 
         # 頂点データの作成
         format = GeomVertexFormat.getV3c4()  # 3次元座標とRGBA色を持つフォーマット
@@ -69,7 +69,7 @@ class BuildingRenderer:
         building_nodepath = building.node.attachNewNode(node)  # ノードをシーンに追加
 
         # ビルの高さを設定
-        building.node.setSz(height)
+        building.node.setSz(building.height)
 
         # ワイヤーフレーム表示に設定
         if building.base.use_wireframe:

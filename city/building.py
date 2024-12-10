@@ -10,6 +10,7 @@ class Building:
         self.id = building_id
         self.coordinates = coordinates
         self.building_z = building_z
+        self.height = 0  # ビルの高さ（後で設定）
         self.color = (0.5, 0.5, 0.5, 1)  # デフォルトの色（グレー）
 
         # 簡略化した座標（初期値は元の座標）
