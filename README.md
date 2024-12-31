@@ -249,8 +249,6 @@ plateau-urban-equalizer/
 
 ### 応用事例
 
-![piano](https://creativival.github.io/plateau-urban-equalizer/images/piano.png)
-
 本アプリケーションの柔軟性を示すため、応用事例として PLATEAU Piano を作成しました。PLATEAU Piano は、3D都市をピアノの鍵盤に見立て、音楽を演奏できるアプリケーションです。
 
 詳しい作成手順やコードの詳細は、以下のリンクからご覧いただけます。この事例を参考に、ぜひ自分だけのオリジナルアプリケーションを作り上げてください！
