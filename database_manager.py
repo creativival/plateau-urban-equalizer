@@ -3,6 +3,7 @@ import sqlite3
 import json
 from mapbox_vector_tile import decode  # PBFファイルのデコードに使用
 from city.building import Building  # 既存のBuildingクラスをcityフォルダーからインポート
+from city.building_render import BuildingRenderer
 
 
 class BuildingDataManager:
@@ -23,12 +24,13 @@ class BuildingDataManager:
 
     def create_table(self):
         """
-        データベースにテーブルを作成
+        データベースにテーブルを作成し、z_x_yに基づくインデックスを作成
         """
+        # テーブル作成
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS buildings (
             id INTEGER PRIMARY KEY,
-            folder_name TEXT,
+            z_x_y TEXT NOT NULL,
             building_id INTEGER,
             coordinates TEXT,
             simplified_coords TEXT,
@@ -38,28 +40,50 @@ class BuildingDataManager:
             bounding_circle_radius REAL
         )
         ''')
+
+        # z_x_yのインデックス作成
+        self.cursor.execute('''
+        CREATE INDEX IF NOT EXISTS idx_z_x_y ON buildings (z_x_y);
+        ''')
+
+        # コミットして変更を保存
         self.conn.commit()
 
-    def save_building_to_db(self, folder_name, building):
+    def ensure_counterclockwise(self, coords):
+        """
+        座標が時計回りの場合は反転して反時計回りにする
+
+        Args:
+            coords: 多角形の頂点座標のリスト
+
+        Returns:
+            反時計回りの座標リスト
+        """
+        if BuildingRenderer.is_clockwise(coords):
+            return coords[::-1]  # 反転して反時計回りにする
+        return coords
+
+    def save_building_to_db(self, pbf_file, building):
         """
         Buildingオブジェクトをデータベースに保存
         Args:
-            folder_name (str): PBFファイルが含まれるフォルダー名
+            pbf_file (str): PBFファイル名（例: 15/29117/12892.pbf）
             building (Building): 保存対象のBuildingオブジェクト
         """
         coordinates_str = json.dumps(building.coordinates)
         simplified_coords_str = json.dumps(building.simplified_coords)
+        z_x_y = pbf_file.split('.pbf')[0].replace('/', '_')
 
         self.cursor.execute(
             '''
             INSERT INTO buildings (
-                folder_name, building_id, coordinates, simplified_coords,
+                z_x_y, building_id, coordinates, simplified_coords,
                 building_z, centroid_x, centroid_y, bounding_circle_radius
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ''',
             (
-                folder_name,
+                z_x_y,
                 building.id,
                 coordinates_str,
                 simplified_coords_str,
@@ -70,7 +94,7 @@ class BuildingDataManager:
             )
         )
 
-    def process_pbf_file(self, folder_name, pbf_file):
+    def process_pbf_file(self, pbf_file):
         """
         PBFファイルを処理してデータベースに保存
         Args:
@@ -107,25 +131,27 @@ class BuildingDataManager:
                 # Buildingオブジェクトを作成
                 if depth == 3:
                     # 単一のポリゴン
+                    coordinates = self.ensure_counterclockwise(geometry[0])  # 時計回りを修正
                     building = Building(
                         base=self.base,
                         building_id=building_id,
-                        coordinates=geometry[0],  # 外周座標
+                        coordinates=coordinates,
                         building_z=building_z
                     )
                     building.calculate_geometry()
-                    self.save_building_to_db(folder_name, building)
+                    self.save_building_to_db(pbf_file, building)
                 elif depth == 4:
                     # 複数のポリゴン（例: 穴あきポリゴン）
                     for polygon in geometry:
+                        coordinates = self.ensure_counterclockwise(polygon[0])  # 時計回りを修正
                         building = Building(
                             base=self.base,
                             building_id=building_id,
-                            coordinates=polygon[0],  # 外周座標
+                            coordinates=coordinates,
                             building_z=building_z
                         )
                         building.calculate_geometry()
-                        self.save_building_to_db(folder_name, building)
+                        self.save_building_to_db(pbf_file, building)
                 else:
                     print(f"Unexpected geometry depth for building ID {building_id} in {pbf_file}")
 
@@ -157,9 +183,8 @@ class BuildingDataManager:
             for file_name in files:
                 if file_name.endswith(".pbf"):
                     pbf_path = os.path.join(root, file_name)
-                    folder_name = os.path.basename(root)
                     print(f"Processing {pbf_path}")
-                    self.process_pbf_file(folder_name, pbf_path)
+                    self.process_pbf_file(pbf_path)
 
     def close(self):
         """
@@ -171,6 +196,6 @@ class BuildingDataManager:
 if __name__ == "__main__":
     # 使用例
     base = None  # 必要ならBaseオブジェクトを渡す
-    manager = BuildingDataManager(db_name='buildings_10_11_12_13.db', root_folder="13")
+    manager = BuildingDataManager(db_name='buildings_10_11_12_13_14.db', root_folder="14")
     manager.process_all_pbf_files()
     manager.close()

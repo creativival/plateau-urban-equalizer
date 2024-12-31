@@ -11,3 +11,4 @@ memo.md
 Dive_To_Mod.mp3
 *.pyc
 __pycache__
+*.db
