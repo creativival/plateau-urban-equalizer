@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLATEAU Urban Equalizer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px; /* ディスプレイ幅に制限をかける */
+            margin: 0 auto; /* コンテンツを中央揃え */
+            padding: 0 15px; /* 左右に余白を追加 */
+        }
+
+        img {
+            max-width: 100%; /* 画像がはみ出さないよう調整 */
+            height: auto;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light text-dark">
+<div class="container py-5">
+
+
+
+
+
+
+
+
+
+
+<h1 class="text-center mb-4">PLATEAU Urban Equalizer</h1>
+<h2>タイトル</h2>
+<p>PLATEAU Urban Equalizer - 東京の街を3Dで体験</p>
+<h2>サブタイトル</h2>
+<p>3D都市データに命を吹き込み、音楽に合わせて街全体を踊らせる</p>
+<h2>概要</h2>
+<p>PLATEAU Urban Equalizerは、国土交通省が公開している3D都市モデル「PLATEAU」データを用いて作られた3Dビル群をARで表示します。サウンドエコライザー機能により街全体を音楽に合わせてダイナミックに踊らせることができます。</p>
+<h2>主な特長</h2>
+<ul>
+  <li>東京都内の3Dビル配置</li>
+  <li>サウンド再生</li>
+  <li>サウンドエコライザー</li>
+</ul>
+<h2>こんな方におすすめ</h2>
+<ul>
+  <li>建築や都市計画が好きな方</li>
+  <li>AR技術を使って街の姿を手軽に楽しみたい方</li>
+  <li>シミュレーションゲームや地図アプリを好む方</li>
+  <li>東京の街並みを3D化して研究・検討したい方</li>
+</ul>
+<h2>コピーライト</h2>
+<ul>
+  <li>
+    <p><strong>3D都市データ</strong></p>
+    <ul>
+      <li>plateau-lod2-mvtデータセット</li>
+      <li>リポジトリURL：<a href="https://github.com/indigo-lab/plateau-lod2-mvt">https://github.com/indigo-lab/plateau-lod2-mvt</a></li>
+      <li>CC-BY-4.0（<a href="https://creativecommons.org/licenses/by/4.0/deed.ja">https://creativecommons.org/licenses/by/4.0/deed.ja</a>）ライセンスで提供されています。</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>画像</strong></p>
+    <ul>
+      <li>mirror_ball.png (DALL-E3生成)</li>
+      <li>piano_keyboard_rainbow.png (開発者による自作)</li>
+      <li>soda_pop.png (開発者による自作)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>音源</strong></p>
+    <ul>
+      <li>フリーBGM DOVA-SYNDROME (<a href="https://dova-s.jp/">https://dova-s.jp/</a>) より以下の音源を使用しています。
+        <ul>
+          <li>フリーBGM素材「Dive To Mod」by MFP【Marron Fields Production】</li>
+          <li>フリーBGM素材「December Town」by MFP【Marron Fields Production】</li>
+          <li>フリーBGM素材「Rise &amp; Roar」by MFP【Marron Fields Production】</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<h2>サポート端末・OS</h2>
+<ul>
+  <li>iPhone / iPad (iOS 17以降)</li>
+  <li>Vision Pro (visionOS 2.0以降)</li>
+</ul>
+<h2>使用方法</h2>
+<ol>
+  <li><strong>アプリを起動する</strong>
+    <ul>
+      <li>ホーム画面から「Urban Equalizer」を起動します。初回起動時はカメラの使用を許可してください。</li>
+    </ul>
+  </li>
+  <li><strong>ベースアンカーを設置（iOSのみ）</strong>
+    <ul>
+      <li>カメラを周囲に向けると床やテーブルなどの水平面を認識します。平面が検知できたら、黒と白のベースアンカーが設置されます。</li>
+    </ul>
+  </li>
+  <li><strong>街を読み込む</strong>
+    <ul>
+      <li>ロードボタンをタップして、3D都市をロードします。初期設定では渋谷駅周辺が表示されます。</li>
+    </ul>
+  </li>
+  <li><strong>サウンドエコライザー</strong>
+    <ul>
+      <li>プレイボタンをタップして、音楽を再生します。音楽に合わせて街全体がダイナミックに動きます。</li>
+    </ul>
+  </li>
+</ol>
+<h2>設定</h2>
+<ul>
+  <li><strong>マップタイルの設定</strong>
+    <ul>
+      <li>ズームレベル、タイルX、タイルYの3つの値で地図表示する範囲を決定します。</li>
+      <li>東京の任意の場所のタイル座標を調べる方法は開発者のnote記事を参照してください。</li>
+      <li>PLATEAU AWARD 2024出展作品　<a href="https://note.com/creativival/n/nf040a73a152a#06bc4eac-a6d1-4401-a5de-3bbdbb69ab7b">PLATEAU Urban Equalizer</a></li>
+    </ul>
+  </li>
+  <li><strong>ズームレート</strong>
+    <ul>
+      <li>街の表示倍率を決定します。</li>
+    </ul>
+  </li>
+  <li><strong>背景画像</strong>
+    <ul>
+      <li>ビルの色を決定する背景画像を選びます。</li>
+    </ul>
+  </li>
+  <li><strong>サウンドエコライザー</strong>
+    <ul>
+      <li>BGMの音源を選びます。</li>
+      <li>ビジュアルエフェクトの波のタイプを選びます。</li>
+    </ul>
+  </li>
+  <li><strong>パフォーマンス</strong>
+    <ul>
+      <li>このアプリはたくさんの3Dモデルを表示するため、動作が遅くなったりクラッシュすることがあります。</li>
+      <li><strong>ビルの最小高さの設定</strong>: 設定した値以下のビルを表示しません。大きくするほど、パフォーマンスは向上します。</li>
+      <li><strong>簡易座標を使用</strong>: ビル基底面の座標を簡略化することでパフォーマンスを向上します。オン推奨です。</li>
+    </ul>
+  </li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

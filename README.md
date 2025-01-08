@@ -257,6 +257,16 @@ plateau-urban-equalizer/
 
 - [PLATEAU Piano](https://note.com/creativival/n/nf040a73a152a#83633652-8e44-4aab-8aaf-7e7b5f3db92a)
 
+### 他のプラットフォームへの移植
+
+![PLATEAU Urban Equalizer Voyage](https://creativival.github.io/plateau-urban-equalizer/images/visionOS_app.png)
+
+本アプリケーションをベースに、iPhone / iPad / Vision Pro向けのアプリケーションを開発しました。PLATEAU Urban Equalizerは、3D都市データを活用し、音楽に連動したサウンドエコライザー効果をビジュアル化するアプリケーションです。視覚と聴覚を融合した新しい都市体験を提供します。
+
+- [iOS: PLATEAU Urban Equalizer](https://apps.apple.com/us/app/plateau-urban-equalizer/id6739744416)
+
+- [visionOS: PLATEAU Urban Equalizer Voyage](https://apps.apple.com/us/app/plateau-urban-equalizer-voyage/id6740018877)
+- 
 ## ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSEファイル](LICENSE)をご確認ください。
