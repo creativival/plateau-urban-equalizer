@@ -1,5 +1,7 @@
 # PLATEAU Urban Equalizer
 
+![thumbnail](https://creativival.github.io/plateau-urban-equalizer/images/app_store_support_page_en.jpg)
+
 ## Title
 PLATEAU Urban Equalizer - Experience Tokyo's City in 3D  
 PLATEAU Urban Equalizer Voyage - Experience Tokyo's City in 3D
@@ -68,3 +70,8 @@ PLATEAU Urban Equalizer displays 3D buildings created using the "PLATEAU" 3D cit
   - This app displays a large number of 3D models, so it may slow down or crash.
   - **Setting Minimum Building Height**: Buildings below the set value will not be displayed. Increasing this value improves performance.
   - **Use Simplified Coordinates**: Simplifying the coordinates of the building base improves performance. Recommended to turn on.
+
+## Contact
+If you have any questions about how to use the app, report bugs, or request additional features, please contact us using the form below. A representative will try to reply to you within 5 business days.
+
+[Contact Form](https://docs.google.com/forms/d/e/1FAIpQLSfaUYRqJZigfFEeF86jrzS-PTj5V4wHFT9xCjU0Hnf423fXxw/viewform?usp=dialog)

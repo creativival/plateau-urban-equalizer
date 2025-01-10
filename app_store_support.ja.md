@@ -1,5 +1,7 @@
 # PLATEAU Urban Equalizer
 
+![thumbnail](https://creativival.github.io/plateau-urban-equalizer/images/app_store_support_page_ja.jpg)
+
 ## タイトル
 PLATEAU Urban Equalizer - 東京の街を3Dで体験
 
@@ -67,3 +69,8 @@ PLATEAU Urban Equalizerは、国土交通省が公開している3D都市モデ�
   - このアプリはたくさんの3Dモデルを表示するため、動作が遅くなったりクラッシュすることがあります。
   - **ビルの最小高さの設定**: 設定した値以下のビルを表示しません。大きくするほど、パフォーマンスは向上します。
   - **簡易座標を使用**: ビル基底面の座標を簡略化することでパフォーマンスを向上します。オン推奨です。
+
+## お問い合わせ
+アプリの使い方、バグの報告、機能追加の要望などございましたら、以下のフォームよりご連絡ください。担当者より、5営業日以内に返信するようにいたします。
+
+[お問い合わせフォーム](https://docs.google.com/forms/d/e/1FAIpQLSeuUKvHZod174K2nJQi7zQAx_rbLugLfE_sd6i1UVuAHnHq2A/viewform?usp=dialog)
